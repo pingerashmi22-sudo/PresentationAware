@@ -1,0 +1,225 @@
+{
+  "slide_1": {
+    "elements": [
+      {
+        "text": "LOCAL SELF-GOVERNMENT - URBAN",
+        "type": "title",
+        "x": 43,
+        "y": 49,
+        "w": 1170,
+        "h": 152
+      },
+      {
+        "text": "Name : Heli Shah",
+        "type": "title",
+        "x": 640,
+        "y": 419,
+        "w": 595,
+        "h": 277
+      },
+      {
+        "text": "Subject : History Civics",
+        "type": "title",
+        "x": 640,
+        "y": 419,
+        "w": 595,
+        "h": 277
+      },
+      {
+        "text": "Class : 9 C",
+        "type": "title",
+        "x": 640,
+        "y": 419,
+        "w": 595,
+        "h": 277
+      },
+      {
+        "text": "Roll no : 42",
+        "type": "title",
+        "x": 640,
+        "y": 419,
+        "w": 595,
+        "h": 277
+      }
+    ],
+    "keywords": [
+      "local",
+      "self",
+      "government",
+      "urban",
+      "name",
+      "heli",
+      "shah",
+      "subject",
+      "history",
+      "civics"
+    ],
+    "all_text": "LOCAL SELF-GOVERNMENT - URBAN Name : Heli Shah Subject : History Civics Class : 9 C Roll no : 42"
+  },
+  "slide_2": {
+    "elements": [
+      {
+        "text": "function",
+        "type": "title",
+        "x": 88,
+        "y": 38,
+        "w": 1104,
+        "h": 139
+      },
+      {
+        "text": "Urban planningand town planning",
+        "type": "heading",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Regulation of land useand construction of buildings",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Water supplyfor domestic, industrial, and commercial purposes",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Public health, sanitation, conservancy, and solid waste management",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Fire services",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Urban forestry, environmental protection, and ecological aspects",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Slum improvement and up-gradation",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Urban poverty alleviation",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Provision of urban amenitiessuch as parks, playgrounds, street lighting, and public conveniences",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Registration of births and deaths",
+        "type": "bullet",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      }
+    ],
+    "keywords": [
+      "urban",
+      "public",
+      "function",
+      "planningand",
+      "town",
+      "planning",
+      "regulation",
+      "land",
+      "useand",
+      "construction"
+    ],
+    "all_text": "function Urban planningand town planning Regulation of land useand construction of buildings Water supplyfor domestic, industrial, and commercial purposes Public health, sanitation, conservancy, and solid waste management Fire services Urban forestry, environmental protection, and ecological aspects Slum improvement and up-gradation Urban poverty alleviation Provision of urban amenitiessuch as parks, playgrounds, street lighting, and public conveniences Registration of births and deaths"
+  },
+  "slide_3": {
+    "elements": [
+      {
+        "text": "seats",
+        "type": "chart_label",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "members",
+        "type": "chart_label",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "female members",
+        "type": "chart_label",
+        "x": 88,
+        "y": 192,
+        "w": 1104,
+        "h": 457
+      },
+      {
+        "text": "Lowest value: 2.5 at Point 2",
+        "type": "heading",
+        "x": 88,
+        "y": 192,
+        "w": 400,
+        "h": 36
+      },
+      {
+        "text": "Lowest value: 1.8 at Point 3",
+        "type": "heading",
+        "x": 88,
+        "y": 192,
+        "w": 400,
+        "h": 36
+      },
+      {
+        "text": "Lowest value: 2.0 at Point 1",
+        "type": "heading",
+        "x": 88,
+        "y": 192,
+        "w": 400,
+        "h": 36
+      }
+    ],
+    "keywords": [
+      "lowest",
+      "value",
+      "point",
+      "members",
+      "seats",
+      "female"
+    ],
+    "all_text": "seats members female members Lowest value: 2.5 at Point 2 Lowest value: 1.8 at Point 3 Lowest value: 2.0 at Point 1"
+  }
+}

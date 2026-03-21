@@ -1,59 +1,78 @@
-import pyautogui
 import time
-import os
 from speech_engine import SpeechEngine
+from slide_controller import SlideController
+from visual_highlighter import highlight_by_speech
+import wake_word 
 
-def main():
-    # Clean up old cache files if they exist
-    if os.path.exists("input_cache.wav"):
+class PresentationController:
+    def __init__(self):
+        # Initialize specialized Member 4 tools [cite: 36, 37]
+        self.engine = SpeechEngine()
+        self.slide_ctrl = SlideController()
+        self.is_running = True
+        
+        # Connect to PowerPoint visual bridge [cite: 7]
+        self.slide_ctrl.connect() 
+        print("🚀 [Member 4] Controller initialized and connected to PPT.")
+
+    def start_lifecycle(self):
+        """
+        Manages the Audio Lifecycle: Wake Word -> Transcribe -> Action. [cite: 42, 43]
+        """
+        print("👂 [System Standby] Waiting for wake word 'Porcupine'...")
+        
         try:
-            os.remove("input_cache.wav")
-        except:
-            pass
+            while self.is_running:
+                # 1. Wait for trigger from 05_wake_word.py [cite: 5, 42]
+                if wake_word.detect():
+                    print("🚨 Wake word detected! [Emit: Transcription Ready] [cite: 5]")
+                    
+                    # 2. Capture clean text via speech_engine.py [cite: 6, 17]
+                    # This ensures the mic only sends 'active' speech to the AI [cite: 42, 43]
+                    text = self.engine.capture_and_transcribe(duration=4.0)
+                    
+                    if text:
+                        self.execute_action(text)
+                
+                time.sleep(0.1)
+        except KeyboardInterrupt:
+            self.stop()
 
-    # Initialize the new API-powered engine
-    engine = SpeechEngine()
-    print("🚀 Presentation System Online.")
-    print("🎤 Ready for voice commands (e.g., 'Next slide', 'Go back').")
-    print("---------------------------------------------------------")
+    def execute_action(self, text):
+        """
+        Member 4 Task: Absolute Control & Smart Highlighting. [cite: 10, 36, 40, 41]
+        """
+        clean_text = text.lower()
+        
+        # --- Task: Absolute Navigation (Priority: Slide Numbers) [cite: 40, 8] ---
+        if "slide" in clean_text and any(s.isdigit() for s in clean_text.split()):
+            try:
+                # Extract digits for Absolute Control [cite: 40, 8]
+                num = [int(s) for s in clean_text.split() if s.isdigit()][0]
+                self.slide_ctrl.jump_to_slide(num)
+            except IndexError:
+                print("⚠️ No slide number detected in speech.")
 
-    try:
-        while True:
-            # Trigger processing (3 second window)
-            # In a real presentation, you might trigger this with a key or wake word
-            data = engine.process_audio(duration=3.0)
+        # --- Task: Relative Navigation (Fallback: Next/Previous) [cite: 40, 8] ---
+        elif "next" in clean_text:
+            print("➡️ No number detected, moving to next slide.")
+            self.slide_ctrl.move_next()
             
-            action = data['intent']['action']
-            text = data['text']
+        elif "back" in clean_text or "previous" in clean_text:
+            print("⬅️ No number detected, moving to previous slide.")
+            self.slide_ctrl.move_previous()
 
-            if len(text) > 1:
-                print(f"🗣️  Recognized: \"{text}\"")
-                print(f"🤖 Action: {action}")
+        # --- Task: Smart Highlighting [cite: 41, 9] ---
+        elif "highlight" in clean_text:
+            print(f"✨ [Action] Highlighting terms: {text} [cite: 41]")
+            # Use LLM-detected terms for dynamic highlighting [cite: 9, 41]
+            # Replace 'your_presentation.pptx' with your actual path variable
+            # highlight_by_speech(text, "your_presentation.pptx")
 
-            # Execution Logic
-            if action == "NEXT_SLIDE":
-                pyautogui.press('right')
-                print("✅ Action Executed: Next")
-                time.sleep(0.5) 
-                
-            elif action == "PREVIOUS_SLIDE":
-                pyautogui.press('left')
-                print("✅ Action Executed: Previous")
-                time.sleep(0.5)
-                
-            elif action == "ZOOM_IN":
-                pyautogui.hotkey('ctrl', '=')
-                print("✅ Action Executed: Zoom In")
-                # Auto-reset zoom after 3 seconds for convenience
-                time.sleep(3.0)
-                pyautogui.hotkey('ctrl', '0')
-                print("🔄 Zoom Reset")
-            
-            # Small pause to keep the CPU cool
-            time.sleep(0.1)
-                
-    except KeyboardInterrupt:
-        print("\n⏹️ Stopping Presentation Assistant...")
+    def stop(self):
+        print("\n⏹️ Stopping Member 4 Controller...")
+        self.is_running = False
 
 if __name__ == "__main__":
-    main()
+    controller = PresentationController()
+    controller.start_lifecycle()

@@ -1,6 +1,11 @@
+# --- Member 4: Audio & Execution Lead Dependencies ---
 pyaudio==0.2.14
+pvporcupine==3.0.1
 openai
 python-dotenv
-pvporcupine==3.0.1
 pyautogui
 numpy==1.26.4
+
+# --- PowerPoint Control & Highlighting (Member 4 specific) ---
+pywin32          # Required for SlideController (Absolute Navigation)
+python-pptx      # Required for VisualHighlighter (Text & Chart Highlighting)

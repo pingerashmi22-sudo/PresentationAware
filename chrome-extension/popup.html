@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>PresentationAware</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 320px;
+      font-family: Segoe UI, sans-serif;
+      background: #f0f4ff;
+      padding: 16px;
+    }
+    h2 {
+      color: #2b579a;
+      font-size: 16px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    #startBtn { background: #2b579a; color: white; }
+    #stopBtn  { background: #d9534f; color: white; display: none; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .card h3 {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .card p { font-size: 13px; color: #333; }
+    #keywords { display: flex; flex-wrap: wrap; gap: 4px; }
+    .kw {
+      background: #fff3a3;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      color: #333;
+    }
+    #status {
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+      margin-top: 4px;
+    }
+    .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      margin-right: 4px;
+    }
+    .dot.active { background: #2ecc71; animation: pulse 1s infinite; }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <h2>🎤 PresentationAware</h2>
+
+  <button id="startBtn" onclick="startListening()">▶ Start Listening</button>
+  <button id="stopBtn"  onclick="stopListening()">⏹ Stop Listening</button>
+
+  <div class="card">
+    <h3>🗣 You said</h3>
+    <p id="transcript">—</p>
+  </div>
+
+  <div class="card">
+    <h3>✨ Keywords</h3>
+    <div id="keywords"><span style="color:#aaa;font-size:13px">—</span></div>
+  </div>
+
+  <div class="card">
+    <h3>💡 Suggestion</h3>
+    <p id="suggestion">—</p>
+  </div>
+
+  <div class="card">
+    <h3>🧠 Intent</h3>
+    <p id="intent">—</p>
+  </div>
+
+  <p id="status"><span class="dot" id="dot"></span>Idle</p>
+
+  <script src="popup.js"></script>
+</body>
+</html>

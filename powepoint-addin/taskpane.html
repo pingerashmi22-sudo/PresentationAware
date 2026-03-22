@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>PresentationAware</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="taskpane.js" defer></script>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      padding: 16px;
+      background: #f3f3f3;
+    }
+    h2 {
+      color: #2b579a;
+      font-size: 18px;
+    }
+    button {
+      padding: 10px 16px;
+      margin: 6px 0;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #startBtn  { background: #2b579a; color: white; }
+    #stopBtn   { background: #d9534f; color: white; display: none; }
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .section h3 { margin: 0 0 8px; font-size: 14px; color: #555; }
+    #keywords span {
+      display: inline-block;
+      background: #fff3a3;
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin: 3px;
+      font-size: 13px;
+    }
+    #status {
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎤 PresentationAware</h2>
+
+  <button id="startBtn" onclick="startListening()">▶ Start Listening</button>
+  <button id="stopBtn"  onclick="stopListening()">⏹ Stop</button>
+
+  <div class="section">
+    <h3>🗣 You said:</h3>
+    <p id="transcript">—</p>
+  </div>
+
+  <div class="section">
+    <h3>✨ Keywords:</h3>
+    <div id="keywords">—</div>
+  </div>
+
+  <div class="section">
+    <h3>💡 Suggestion:</h3>
+    <p id="suggestion">—</p>
+  </div>
+
+  <div class="section">
+    <h3>🧠 Intent:</h3>
+    <p id="intent">—</p>
+  </div>
+
+  <p id="status">Status: Idle</p>
+</body>
+</html>

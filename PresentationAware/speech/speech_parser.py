@@ -1,70 +1,52 @@
+import json
 import os
+from rapidfuzz import fuzz
 
-from dotenv import load_dotenv
-from openai import OpenAI
+MEMORY_FILE = os.path.join(os.path.dirname(__file__), "intent_memory.json")
 
-from context.prompts import CLEANER_PROMPT
+def load_memory():
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f)
+    return {}
 
-# ---------------------------------------------------------------------------
-# FIX: load_dotenv() must be called BEFORE os.getenv() and OpenAI client
-# initialisation. In the original, the client was created at module load time
-# with os.getenv("OPENAI_API_KEY") — but load_dotenv() was called on the line
-# just above it, which is fine order-wise. However the OpenAI client was being
-# instantiated at import time (module level), meaning if the .env file is
-# missing or the key is wrong, the entire module fails to import.
-# Moved client creation inside a lazy initialiser so failures are localised.
-# ---------------------------------------------------------------------------
+def save_memory(memory):
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=4)
 
-load_dotenv(dotenv_path="member_1_speech/.env")
+def is_match(text, keywords, threshold=80):
+    for kw in keywords:
+        score = fuzz.partial_ratio(text, kw)
+        if score >= threshold and len(kw.split()) <= len(text.split()):
+            return True
+    return False
 
-# Lazy client — created once on first use, not at import time
-_client: OpenAI | None = None
-
-
-def _get_client() -> OpenAI:
-    """Returns a cached OpenAI client, initialising it on first call."""
-    global _client
-    if _client is None:
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise EnvironmentError(
-                "[SpeechParser] OPENAI_API_KEY not found. "
-                "Check that member_1_speech/.env exists and contains the key."
-            )
-        _client = OpenAI(api_key=api_key)
-    return _client
-
-
-def parse_input(raw_text: str) -> str:
-    """
-    Sends raw STT transcript to the LLM for intelligent cleaning.
-    Returns a cleaned string, or "" if the LLM identifies it as noise.
-    """
-    if not raw_text or not raw_text.strip():
-        return ""
-
-    try:
-        response = _get_client().chat.completions.create(
-            model="gpt-4o-mini",  # fast + cheap — cleaning is a simple task
-            max_tokens=100,
-            temperature=0,        # deterministic — no creativity needed
-            messages=[
-                {"role": "system", "content": CLEANER_PROMPT},
-                {"role": "user",   "content": raw_text.strip()}
-            ]
-        )
-
-        cleaned = response.choices[0].message.content.strip()
-
-        # FIX: original compared cleaned.upper() == "NOISE" which would miss
-        # cases where the LLM returns "noise" or "Noise" — .upper() already
-        # handles this, but added .strip() defensively in case of whitespace
-        if cleaned.strip().upper() == "NOISE":
-            return ""
-
-        return cleaned.lower()
-
-    except Exception as e:
-        # Graceful degradation — don't crash the live loop
-        print(f"[SpeechParser] LLM cleaning failed: {e} — using raw text")
-        return raw_text.lower().strip()
+def parse_input(text):
+    text = text.lower().strip()
+    text = text.replace("and do", "undo")
+    text = text.replace("end do", "undo")
+    noise_words = ["hello", "hi", "okay", "ok", "yes", "yeah", "hmm", "huh", "thanks", "thank you"]
+    if len(text.split()) == 1 and text in noise_words:
+        return {"intent": "none", "confidence": 0.0}
+    memory = load_memory()
+    for phrase, intent_data in memory.items():
+        if phrase in text:
+            protected_words = ["next", "back", "undo", "highlight"]
+            if any(word in phrase for word in protected_words):
+                continue
+            return intent_data
+    if is_match(text, ["next", "move on", "continue", "skip", "forward"]):
+        return {"intent": "next_slide", "confidence": 0.9}
+    if is_match(text, ["back", "previous", "go back", "last slide"]):
+        return {"intent": "previous_slide", "confidence": 0.9}
+    if is_match(text, ["undo", "cancel", "reverse", "go back action"]):
+        return {"intent": "undo", "confidence": 0.95}
+    if is_match(text, ["this is important", "this is critical", "important point", "key takeaway", "focus on this"]):
+        return {"intent": "highlight", "target": "current_context", "confidence": 0.85}
+    if "highlight" in text:
+        words = text.split()
+        target = words[-1] if len(words) > 1 else None
+        return {"intent": "highlight", "target": target, "confidence": 0.85}
+    words = text.split()
+    keywords = [w for w in words if len(w) > 4]
+    return {"intent": "speech", "keywords": keywords, "raw": text, "confidence": 0.5}

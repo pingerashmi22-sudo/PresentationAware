@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "PresentationAware",
+  "version": "1.0",
+  "description": "Real-time speech and slide awareness during presentations",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:5000/*",
+    "https://docs.google.com/*"
+  ],
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}

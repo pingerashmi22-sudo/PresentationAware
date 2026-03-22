@@ -1,8 +1,9 @@
+
 import json
 import os
 from rapidfuzz import fuzz
 
-MEMORY_FILE = "speech/intent_memory.json"
+MEMORY_FILE = os.path.join(os.path.dirname(__file__), "intent_memory.json")
 
 
 # -------- MEMORY FUNCTIONS --------
@@ -50,7 +51,6 @@ def parse_input(text):
     # -------- CHECK LEARNED PHRASES --------
     for phrase, intent_data in memory.items():
         if phrase in text:
-            # Safety: ignore if phrase contains protected words
             protected_words = ["next", "back", "undo", "highlight"]
             if any(word in phrase for word in protected_words):
                 continue
@@ -86,43 +86,19 @@ def parse_input(text):
     if "highlight" in text:
         words = text.split()
         target = words[-1] if len(words) > 1 else None
-
         return {
             "intent": "highlight",
             "target": target,
             "confidence": 0.85
         }
 
-    # -------- AUTO-LEARNING (SAFE VERSION) --------
-    print("I didn't understand that.")
-    user_choice = input(
-        "Map this to an intent? (next / back / undo / highlight / skip / no): "
-    ).strip().lower()
+    # -------- KEYWORD EXTRACTION (replaces input() for web use) --------
+    words = text.split()
+    keywords = [w for w in words if len(w) > 4]  # simple keyword filter
 
-    intent_map = {
-        "next": "next_slide",
-        "back": "previous_slide",
-        "undo": "undo",
-        "highlight": "highlight",
-        "skip": "next_slide"
+    return {
+        "intent": "speech",
+        "keywords": keywords,
+        "raw": text,
+        "confidence": 0.5
     }
-
-    if user_choice in intent_map:
-        learned_intent = {
-            "intent": intent_map[user_choice],
-            "confidence": 0.8
-        }
-
-        # -------- PROTECTION: DON'T LEARN CRITICAL COMMANDS --------
-        protected_words = ["next", "back", "undo", "highlight"]
-
-        if not any(word in text for word in protected_words):
-            memory[text] = learned_intent
-            save_memory(memory)
-            print("Learned for future!")
-        else:
-            print("Skipped learning (protected command)")
-
-        return learned_intent
-
-    return {"intent": "none", "confidence": 0.5}

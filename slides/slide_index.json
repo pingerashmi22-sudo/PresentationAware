@@ -1,225 +1,47 @@
 {
-  "slide_1": {
-    "elements": [
-      {
-        "text": "LOCAL SELF-GOVERNMENT - URBAN",
-        "type": "title",
-        "x": 43,
-        "y": 49,
-        "w": 1170,
-        "h": 152
-      },
-      {
-        "text": "Name : Heli Shah",
-        "type": "title",
-        "x": 640,
-        "y": 419,
-        "w": 595,
-        "h": 277
-      },
-      {
-        "text": "Subject : History Civics",
-        "type": "title",
-        "x": 640,
-        "y": 419,
-        "w": 595,
-        "h": 277
-      },
-      {
-        "text": "Class : 9 C",
-        "type": "title",
-        "x": 640,
-        "y": 419,
-        "w": 595,
-        "h": 277
-      },
-      {
-        "text": "Roll no : 42",
-        "type": "title",
-        "x": 640,
-        "y": 419,
-        "w": 595,
-        "h": 277
-      }
+  "1": {
+    "topic": "Local Self-Government - Urban",
+    "summary": "Introduction slide containing student and subject details related to urban local self-government.",
+    "content": [
+      "Name: Heli Shah",
+      "Subject: History Civics",
+      "Class: 9 C",
+      "Roll no: 42"
     ],
-    "keywords": [
-      "local",
-      "self",
-      "government",
-      "urban",
-      "name",
-      "heli",
-      "shah",
-      "subject",
-      "history",
-      "civics"
-    ],
-    "all_text": "LOCAL SELF-GOVERNMENT - URBAN Name : Heli Shah Subject : History Civics Class : 9 C Roll no : 42"
+    "notes": "",
+    "full_text": "Local Self-Government Urban Name Heli Shah Subject History Civics Class 9 C Roll no 42"
   },
-  "slide_2": {
-    "elements": [
-      {
-        "text": "function",
-        "type": "title",
-        "x": 88,
-        "y": 38,
-        "w": 1104,
-        "h": 139
-      },
-      {
-        "text": "Urban planningand town planning",
-        "type": "heading",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Regulation of land useand construction of buildings",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Water supplyfor domestic, industrial, and commercial purposes",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Public health, sanitation, conservancy, and solid waste management",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Fire services",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Urban forestry, environmental protection, and ecological aspects",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Slum improvement and up-gradation",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Urban poverty alleviation",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Provision of urban amenitiessuch as parks, playgrounds, street lighting, and public conveniences",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Registration of births and deaths",
-        "type": "bullet",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      }
+
+  "2": {
+    "topic": "Functions of Urban Local Government",
+    "summary": "Explains various functions of urban local bodies such as planning, sanitation, water supply, and public services.",
+    "content": [
+      "Urban planning and town planning",
+      "Regulation of land use and construction",
+      "Water supply for domestic and industrial use",
+      "Public health and sanitation",
+      "Fire services",
+      "Environmental protection",
+      "Slum improvement",
+      "Urban poverty alleviation",
+      "Urban amenities like parks and street lighting",
+      "Registration of births and deaths"
     ],
-    "keywords": [
-      "urban",
-      "public",
-      "function",
-      "planningand",
-      "town",
-      "planning",
-      "regulation",
-      "land",
-      "useand",
-      "construction"
-    ],
-    "all_text": "function Urban planningand town planning Regulation of land useand construction of buildings Water supplyfor domestic, industrial, and commercial purposes Public health, sanitation, conservancy, and solid waste management Fire services Urban forestry, environmental protection, and ecological aspects Slum improvement and up-gradation Urban poverty alleviation Provision of urban amenitiessuch as parks, playgrounds, street lighting, and public conveniences Registration of births and deaths"
+    "notes": "",
+    "full_text": "Functions of urban local government including planning, sanitation, water supply, fire services, environment, slum development, and public amenities"
   },
-  "slide_3": {
-    "elements": [
-      {
-        "text": "seats",
-        "type": "chart_label",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "members",
-        "type": "chart_label",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "female members",
-        "type": "chart_label",
-        "x": 88,
-        "y": 192,
-        "w": 1104,
-        "h": 457
-      },
-      {
-        "text": "Lowest value: 2.5 at Point 2",
-        "type": "heading",
-        "x": 88,
-        "y": 192,
-        "w": 400,
-        "h": 36
-      },
-      {
-        "text": "Lowest value: 1.8 at Point 3",
-        "type": "heading",
-        "x": 88,
-        "y": 192,
-        "w": 400,
-        "h": 36
-      },
-      {
-        "text": "Lowest value: 2.0 at Point 1",
-        "type": "heading",
-        "x": 88,
-        "y": 192,
-        "w": 400,
-        "h": 36
-      }
+
+  "3": {
+    "topic": "Urban Representation Data",
+    "summary": "Displays chart data related to seats, members, and female members with lowest values at different points.",
+    "content": [
+      "Seats and members data",
+      "Female members representation",
+      "Lowest value at point 2 is 2.5",
+      "Lowest value at point 3 is 1.8",
+      "Lowest value at point 1 is 2.0"
     ],
-    "keywords": [
-      "lowest",
-      "value",
-      "point",
-      "members",
-      "seats",
-      "female"
-    ],
-    "all_text": "seats members female members Lowest value: 2.5 at Point 2 Lowest value: 1.8 at Point 3 Lowest value: 2.0 at Point 1"
+    "notes": "",
+    "full_text": "Chart showing seats, members, and female members with lowest values across different points"
   }
 }

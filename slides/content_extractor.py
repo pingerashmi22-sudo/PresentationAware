@@ -1,31 +1,34 @@
 from pptx.util import Emu
 
+
 def clean_text(text):
     """Remove junk characters and extra whitespace."""
     import re
     text = text.strip()
     text = re.sub(r'[^\x20-\x7E\n]', '', text)   # remove non-printable chars
-    text = re.sub(r'[ \t]+', ' ', text)            # collapse multiple spaces
-    text = re.sub(r'\n+', '\n', text)              # collapse multiple newlines
+    text = re.sub(r'[ \t]+', ' ', text)          # collapse multiple spaces
+    text = re.sub(r'\n+', '\n', text)            # collapse multiple newlines
     return text.strip()
+
 
 def emu_to_px(emu_value):
     """Convert EMU (PowerPoint units) to pixels at 96 DPI."""
     return round(emu_value / 914400 * 96)
 
+
 def extract_slide_text(prs):
     """
-    Returns a dict:
+    Existing function (DO NOT MODIFY - used by Member 4)
+
+    Returns:
     {
       1: [
             {
-              "text": "Revenue Growth",
-              "type": "title" / "bullet" / "shape",
-              "x": 120, "y": 80, "w": 400, "h": 50
-            },
-            ...
-         ],
-      2: [ ... ]
+              "text": "...",
+              "type": "...",
+              "x": ..., "y": ..., "w": ..., "h": ...
+            }
+         ]
     }
     """
     slide_data = {}
@@ -49,12 +52,11 @@ def extract_slide_text(prs):
                     if not line:
                         continue
 
-                    # Detect if this is a title shape
+                    # Detect type
                     shape_type = "title" if shape.shape_type == 13 else "bullet"
                     if hasattr(shape, "name") and "title" in shape.name.lower():
                         shape_type = "title"
                     elif para_idx == 0 and shape.text_frame.paragraphs[0].runs:
-                        # First para with bold run = likely a heading
                         runs = shape.text_frame.paragraphs[0].runs
                         if runs and runs[0].font.bold:
                             shape_type = "heading"
@@ -68,7 +70,7 @@ def extract_slide_text(prs):
                         "h": h
                     })
 
-            # --- Chart shapes — extract axis/series labels ---
+            # --- Chart shapes ---
             if shape.has_chart:
                 chart = shape.chart
                 try:
@@ -87,3 +89,48 @@ def extract_slide_text(prs):
         print(f"Slide {slide_number}: {len(elements)} elements extracted")
 
     return slide_data
+
+def extract_context(slides_data):
+    """
+    Converts structured slide data (from ppt_reader.py)
+    into AI-friendly context strings.
+
+    Input:
+    [
+        {
+            "slide_number": 1,
+            "title": "...",
+            "content": [...],
+            "notes": "...",
+            "full_text": "..."
+        }
+    ]
+
+    Output:
+    {
+        1: "Slide 1 is about ...",
+        2: "Slide 2 explains ..."
+    }
+    """
+
+    context_data = {}
+
+    for slide in slides_data:
+        slide_number = slide["slide_number"]
+
+        title = clean_text(slide["title"])
+        content = [clean_text(c) for c in slide["content"] if c]
+        notes = clean_text(slide["notes"]) if slide["notes"] else ""
+
+        # Build context string
+        context = f"Slide {slide_number} is about {title}. "
+
+        if content:
+            context += "It covers " + ", ".join(content) + ". "
+
+        if notes:
+            context += f"Additional explanation: {notes}."
+
+        context_data[slide_number] = context.strip()
+
+    return context_data

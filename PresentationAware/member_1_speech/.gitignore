@@ -1,0 +1,32 @@
+# Python virtual environment
+speech_env/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables — API keys (NEVER commit this)
+.env
+.env.*
+*.env
+
+# Audio files — large, generated at runtime, not source code
+*.wav
+*.mp3
+*.ogg
+*.flac
+
+# IDE / editor folders
+.vscode/
+.idea/
+
+# Logs
+*.log

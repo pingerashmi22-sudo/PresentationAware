@@ -1,40 +1,75 @@
-import sys
-import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "PresentationAware"))
+from context.context_manager import ContextManager
+from speech.speech_input import get_speech_input
+from speech.speech_parser import parse_input
+from utils.slide_controller import next_slide, previous_slide, goto_slide
+from utils.visual_highlighter import highlight_area
 
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+def run_system():
+    print("Voice System Started")
+    print("Say 'exit' to stop\n")
 
-app = Flask(__name__)
-CORS(app, origins="*")
+    context = ContextManager()
 
-@app.route("/process", methods=["POST"])
-def process():
-    data = request.json
-    speech = data.get("speech", "")
+    # OPTIONAL: set total slides manually for now
+    context.state.set_total_slides(5)
 
-    from speech.speech_parser import parse_input
-    parsed = parse_input(speech)
+    while True:
+        speech_text = get_speech_input()
 
-    keywords = parsed.get("keywords", [])
-    intent = parsed.get("intent", "")
+        if not speech_text:
+            continue
 
-    suggestion = ""
-    if intent == "next_slide":
-        suggestion = "Move to next slide"
-    elif intent == "previous_slide":
-        suggestion = "Go back to previous slide"
-    elif intent == "highlight":
-        suggestion = "Highlight: " + str(parsed.get("target", ""))
-    elif intent == "speech":
-        suggestion = "Speaking about: " + ", ".join(keywords)
+        if "exit" in speech_text:
+            print("Exiting system...")
+            break
 
-    return jsonify({
-        "keywords": keywords,
-        "intent": intent,
-        "suggestions": [suggestion] if suggestion else [],
-        "target_slide": None
-    })
+        print("RAW:", speech_text)
+
+        intent_data = parse_input(speech_text)
+
+        print("INTENT DATA:", intent_data)
+
+        if intent_data["intent"] == "none":
+            continue
+
+        # -------- GOTO SLIDE (keyword jump — NEW) --------
+        if intent_data["intent"] == "goto_slide":
+            target = intent_data["slide_number"]
+            goto_slide(target)
+            context.state.set_current_slide(target)
+            print(f"Jumped to slide {target} based on spoken keywords")
+            print("-" * 40)
+            continue
+
+        # GET RESULT FROM CONTEXT
+        result = context.process_intent(intent_data)
+
+        # HANDLE OUTPUT PROPERLY
+        if result:
+            action = result.get("action")
+
+            if action == "next_slide":
+                next_slide()
+                print(f"Moved to slide {result['current_slide']}")
+
+            elif action == "previous_slide":
+                previous_slide()
+                print(f"Moved back to slide {result['current_slide']}")
+
+            elif action == "highlight":
+                target = result.get("target")
+                position = result.get("position", (300, 300))
+
+                print(f"Highlighting: {target}")
+
+                x, y = position
+                highlight_area(x + 500, y + 200)
+
+            elif action == "undo":
+                print(f"Undo performed")
+
+        print("-" * 40)
+
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    run_system()

@@ -94,7 +94,12 @@ def parse_input(text):
 
     # -------- KEYWORD EXTRACTION (replaces input() for web use) --------
     words = text.split()
-    keywords = [w for w in words if len(w) > 4]  # simple keyword filter
+    stop_words = {"the", "a", "an", "is", "are", "was", "were", "be", "been",
+                  "and", "or", "but", "in", "on", "at", "to", "for", "of",
+                  "with", "by", "it", "its", "this", "that", "i", "we", "you",
+                  "he", "she", "they", "my", "our", "your", "can", "will",
+                  "do", "does", "did", "has", "have", "had", "not", "so", "if"}
+    keywords = [w for w in words if len(w) > 2 and w not in stop_words]
 
     return {
         "intent": "speech",

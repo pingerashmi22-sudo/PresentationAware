@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "PresentationAware",
-  "version": "1.0",
+  "name": "PA-NEW",
+  "version": "2.0",
   "description": "Real-time speech and slide awareness during presentations",
   "permissions": [
     "activeTab",
@@ -12,13 +12,6 @@
     "http://127.0.0.1:5000/*",
     "https://docs.google.com/*"
   ],
-  "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": [

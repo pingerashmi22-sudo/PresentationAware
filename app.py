@@ -25,9 +25,15 @@ def process():
     elif intent == "previous_slide":
         suggestion = "Go back to previous slide"
     elif intent == "highlight":
-        suggestion = "Highlight: " + str(parsed.get("target", ""))
+        target = parsed.get("target", "")
+        suggestion = "Highlight: " + str(target)
+        # Include target as a keyword so the frontend can highlight it
+        if target and target not in keywords:
+            keywords.append(target)
     elif intent == "speech":
         suggestion = "Speaking about: " + ", ".join(keywords)
+        # Always highlight for speech intent
+        intent = "highlight"
 
     return jsonify({
         "keywords": keywords,

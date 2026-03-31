@@ -1,104 +1,139 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>PresentationAware</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      width: 320px;
-      font-family: Segoe UI, sans-serif;
-      background: #f0f4ff;
+      width: 280px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       padding: 16px;
+      color: #e0e0e0;
     }
-    h2 {
-      color: #2b579a;
-      font-size: 16px;
-      margin-bottom: 12px;
-      text-align: center;
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
     }
-    button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      margin-bottom: 8px;
-      font-weight: bold;
+
+    .header h3 {
+      color: #FFD700;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
     }
-    #startBtn { background: #2b579a; color: white; }
-    #stopBtn  { background: #d9534f; color: white; display: none; }
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
-    .card h3 {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .card p { font-size: 13px; color: #333; }
-    #keywords { display: flex; flex-wrap: wrap; gap: 4px; }
-    .kw {
-      background: #fff3a3;
-      border-radius: 4px;
-      padding: 2px 8px;
+
+    .info {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px;
       font-size: 12px;
-      color: #333;
+      color: #bbb;
+      line-height: 1.8;
     }
-    #status {
-      text-align: center;
+
+    .info strong {
+      color: #FFD700;
       font-size: 11px;
-      color: #888;
-      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .dot {
-      display: inline-block;
-      width: 8px; height: 8px;
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .step-num {
+      background: rgba(255, 215, 0, 0.15);
+      color: #FFD700;
       border-radius: 50%;
-      background: #ccc;
-      margin-right: 4px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
-    .dot.active { background: #2ecc71; animation: pulse 1s infinite; }
-    @keyframes pulse {
-      0%,100% { opacity: 1; }
-      50%      { opacity: 0.3; }
+
+    .step-text {
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .toolbar-preview {
+      margin-top: 12px;
+      background: rgba(30, 30, 30, 0.92);
+      border-radius: 20px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .toolbar-preview span {
+      font-size: 14px;
+    }
+
+    .toolbar-preview .lbl {
+      font-size: 9px;
+      color: #888;
     }
   </style>
 </head>
+
 <body>
-  <h2>🎤 PresentationAware</h2>
-
-  <button id="startBtn" onclick="startListening()">▶ Start Listening</button>
-  <button id="stopBtn"  onclick="stopListening()">⏹ Stop Listening</button>
-
-  <div class="card">
-    <h3>🗣 You said</h3>
-    <p id="transcript">—</p>
+  <div class="header">
+    <span style="font-size: 20px;">🎤</span>
+    <h3>PresentationAware</h3>
+  </div>
+  <div class="info">
+    <strong>How to use</strong>
+    <div class="step">
+      <span class="step-num">1</span>
+      <span class="step-text">Open your Google Slides presentation</span>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span class="step-text">Look for the toolbar at the bottom</span>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span class="step-text">Click 🎙️ to enable microphone</span>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span class="step-text">Click ▶️ to start — keywords highlight on slides!</span>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>✨ Keywords</h3>
-    <div id="keywords"><span style="color:#aaa;font-size:13px">—</span></div>
+  <div class="toolbar-preview">
+    <span>🎙️</span>
+    <span style="color:#555;">|</span>
+    <span>▶️</span>
+    <span>⏹️</span>
+    <span style="color:#555;">|</span>
+    <span class="lbl">Ready</span>
+    <span style="color:#555;">|</span>
+    <span style="font-size:10px;color:#666;">✕</span>
   </div>
-
-  <div class="card">
-    <h3>💡 Suggestion</h3>
-    <p id="suggestion">—</p>
-  </div>
-
-  <div class="card">
-    <h3>🧠 Intent</h3>
-    <p id="intent">—</p>
-  </div>
-
-  <p id="status"><span class="dot" id="dot"></span>Idle</p>
-
-  <script src="popup.js"></script>
 </body>
+
 </html>

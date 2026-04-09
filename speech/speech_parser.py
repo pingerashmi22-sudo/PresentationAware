@@ -2,6 +2,18 @@
 import json
 import os
 from rapidfuzz import fuzz
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# OpenAI is optional — works without it
+try:
+    from openai import OpenAI
+    _client = OpenAI()
+    _HAS_OPENAI = True
+except Exception:
+    _client = None
+    _HAS_OPENAI = False
 
 MEMORY_FILE = os.path.join(os.path.dirname(__file__), "intent_memory.json")
 
@@ -26,6 +38,41 @@ def is_match(text, keywords, threshold=80):
         if score >= threshold and len(kw.split()) <= len(text.split()):
             return True
     return False
+
+
+# -------- LLM NAVIGATION INTENT (optional) --------
+def get_llm_navigation_intent(text):
+    """
+    Uses the OpenAI API to semantically detect navigation intent.
+    Returns 'next_slide', 'previous_slide', or 'none'.
+    Only runs if OpenAI is available and working.
+    """
+    if not _HAS_OPENAI or _client is None:
+        return "none"
+
+    prompt = f"""You are a helpful assistant for a presentation software.
+The speaker said: "{text}"
+
+Does this sentence indicate a slide navigation command?
+- Return "next_slide" if they want to go to the NEXT slide (e.g. "go ahead", "let's move on", "jumping ahead", "skip this", "advance", "proceed", "move forward", etc.)
+- Return "previous_slide" if they want to go to the PREVIOUS slide (e.g. "go back", "previous one", "rewind", "let's revisit", etc.)
+- Return "none" if it is NOT a navigation command (e.g. regular speech about a topic).
+
+Reply with ONLY one of these three words: next_slide, previous_slide, none. No explanation."""
+
+    try:
+        response = _client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.0,
+            timeout=5.0
+        )
+        result = response.choices[0].message.content.strip().lower()
+        if result in ("next_slide", "previous_slide"):
+            return result
+        return "none"
+    except Exception:
+        return "none"
 
 
 # -------- MAIN PARSER --------
@@ -56,11 +103,18 @@ def parse_input(text):
                 continue
             return intent_data
 
-    # -------- NEXT SLIDE --------
+    # -------- LLM NAVIGATION CHECK (primary) --------
+    llm_nav = get_llm_navigation_intent(text)
+    if llm_nav == "next_slide":
+        return {"intent": "next_slide", "confidence": 0.95}
+    elif llm_nav == "previous_slide":
+        return {"intent": "previous_slide", "confidence": 0.95}
+
+    # -------- FUZZY NEXT SLIDE (fallback) --------
     if is_match(text, ["next", "move on", "continue", "skip", "forward"]):
         return {"intent": "next_slide", "confidence": 0.9}
 
-    # -------- PREVIOUS SLIDE --------
+    # -------- FUZZY PREVIOUS SLIDE (fallback) --------
     if is_match(text, ["back", "previous", "go back", "last slide"]):
         return {"intent": "previous_slide", "confidence": 0.9}
 
@@ -92,7 +146,7 @@ def parse_input(text):
             "confidence": 0.85
         }
 
-    # -------- KEYWORD EXTRACTION (replaces input() for web use) --------
+    # -------- KEYWORD EXTRACTION --------
     words = text.split()
     stop_words = {"the", "a", "an", "is", "are", "was", "were", "be", "been",
                   "and", "or", "but", "in", "on", "at", "to", "for", "of",
